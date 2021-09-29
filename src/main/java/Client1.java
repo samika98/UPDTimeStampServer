@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class Client1 {
 
     public static void main(String args[]) throws Exception {
-        while(true) {
+        while (true) {
             int SIZE = 1024;
             BufferedReader inFromUser = new BufferedReader(new InputStreamReader(
                     System.in));
@@ -38,6 +38,10 @@ public class Client1 {
             Long t4 = Utility.getServerTime();
             Message message = Utility.deserializeToString(receivePacket.getData());
             message.setClientTimestampT4(t4);
+            Long rtt = ((message.getServerTimestampT2() - message.getClientTimestampT1()) + (message.getServerTimestampT3() - message.getClientTimestampT4())) / 2;
+            System.out.println("LOCAL TIME :" + message.getClientTimestampT4());
+            System.out.println("SERVER TIME :" + message.getServerTimestampT3());
+            System.out.println("RTT_ESTIMATE : " + rtt);
 
         }
     }
