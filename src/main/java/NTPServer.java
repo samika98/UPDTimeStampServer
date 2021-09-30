@@ -1,7 +1,8 @@
+package main.java;
 
-import java.io.*;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 
 
 public class NTPServer {
@@ -12,34 +13,12 @@ public class NTPServer {
         DatagramSocket serverSocket = new DatagramSocket(9876);
 
         while (true) {
-
             byte[] receiveData = new byte[SIZE];
             DatagramPacket receivePacket = new DatagramPacket(receiveData,
                     receiveData.length);
             serverSocket.receive(receivePacket);
-            Long receiveTimestamp = Utility.getServerTime();
-            InetAddress IPAddress = receivePacket.getAddress();
-            int port = receivePacket.getPort();
-            Message message = Utility.deserializeToString(receivePacket.getData());
-            message.setServerTimestampT2(receiveTimestamp);
-            message.setServerTimestampT3(Utility.getServerTime());
-            ByteArrayOutputStream bStream = Utility.serializeToByteArray(message);
-            byte[] serializedMessage = bStream.toByteArray();
-            DatagramPacket sendPacket = new DatagramPacket(serializedMessage,
-                    bStream.size(), IPAddress, port);
-            serverSocket.send(sendPacket);
+            new Thread(new Responder(serverSocket, receivePacket)).start();
         }
-
     }
-
-//    public void startServer() throws SocketException {
-//        DatagramSocket serverSocket = new DatagramSocket();
-//        while(true){
-//            serverSocket.receive();
-//        }
-//    }
-
-
-
-    }
+}
 

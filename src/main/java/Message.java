@@ -1,4 +1,5 @@
-import java.io.Serial;
+package main.java;
+
 import java.io.Serializable;
 
 public class Message implements Serializable {

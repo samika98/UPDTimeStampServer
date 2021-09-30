@@ -1,3 +1,5 @@
+package main.java;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,12 +13,12 @@ public class Utility {
         return objectMapper.readValue(json, Message.class);
     }
 
-    public static Long getServerTime(){
+    public static Long getServerTime() {
         Date serverDate = new Date();
         return serverDate.getTime();
     }
 
-    public static ByteArrayOutputStream serializeToByteArray(Message message)  {
+    public static ByteArrayOutputStream serializeToByteArray(Message message) {
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
         ObjectOutput oo = null;
         try {
@@ -30,7 +32,7 @@ public class Utility {
 
     }
 
-    public static Message deserializeToString(byte[] buffer){
+    public static Message deserializeToString(byte[] buffer) {
         try {
             ObjectInputStream iStream = new ObjectInputStream(new ByteArrayInputStream(buffer));
             Message message = (Message) iStream.readObject();

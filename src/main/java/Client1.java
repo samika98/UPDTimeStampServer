@@ -1,9 +1,11 @@
-import java.io.*;
+package main.java;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class Client1 {
 
