@@ -28,6 +28,7 @@ public class Responder implements Runnable {
         DatagramPacket sendPacket = new DatagramPacket(serializedMessage,
                 bStream.size(), IPAddress, port);
         try {
+            System.out.println(message.toString());
             socket.send(sendPacket);
         } catch (IOException e) {
             e.printStackTrace();
