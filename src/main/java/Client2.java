@@ -1,0 +1,50 @@
+package main.java;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.Arrays;
+
+public class Client2 {
+    public static void main(String args[]) throws Exception {
+//        while(true) {
+        int SIZE = 1024;
+        BufferedReader inFromUser = new BufferedReader(new InputStreamReader(
+                System.in));
+
+        DatagramSocket clientSocket = new DatagramSocket();
+        System.out.println("Client port" + clientSocket.getLocalAddress() + " dsf" + clientSocket.getInetAddress() + " " + clientSocket.getPort());
+
+        InetAddress IPAddress = InetAddress.getByName("localhost");
+
+        byte[] receiveData = new byte[SIZE];
+
+        Message request = new Message();
+        request.setClientTimestampT1(System.currentTimeMillis());
+
+        ByteArrayOutputStream bStream = Utility.serializeToByteArray(request);
+        byte[] serializedMessage = bStream.toByteArray();
+
+        DatagramPacket sendPacket = new DatagramPacket(serializedMessage,
+                serializedMessage.length, IPAddress, 9876);
+
+        clientSocket.send(sendPacket);
+
+        DatagramPacket receivePacket = new DatagramPacket(receiveData,
+                receiveData.length);
+
+        clientSocket.receive(receivePacket);
+        //time when response is received from server
+        Long t4 = Utility.getServerTime();
+
+        System.out.println(" packet : " + Arrays.toString(receivePacket.getData()) + "  " + receivePacket.getAddress());
+        Message message = Utility.deserializeToString(receivePacket.getData());
+        message.setClientTimestampT4(t4);
+//        System.out.println(message);
+//        clientSocket.close();
+    }
+//    }
+}
