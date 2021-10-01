@@ -1,5 +1,3 @@
-package main.java;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -17,6 +15,7 @@ public class NTPServer {
             DatagramPacket receivePacket = new DatagramPacket(receiveData,
                     receiveData.length);
             serverSocket.receive(receivePacket);
+            System.out.println("Package received from client");
             new Thread(new Responder(serverSocket, receivePacket)).start();
         }
     }
