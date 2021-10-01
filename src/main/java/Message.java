@@ -1,7 +1,12 @@
-package main.java;
-
 import java.io.Serializable;
 
+/*
+Packet shared between client and server
+serverTimestampT2 - time when the packet is received by the server
+clientTimestampT1 - local clock of the client
+serverTimestampT3 - server's time
+clientTimestamp4 - client's local time when the server responds with its time
+ */
 public class Message implements Serializable {
     private Long serverTimestampT2;
     private Long clientTimestampT1;

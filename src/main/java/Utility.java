@@ -1,5 +1,3 @@
-package main.java;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,11 +11,20 @@ public class Utility {
         return objectMapper.readValue(json, Message.class);
     }
 
+    /*
+    @returns : the local system time
+     */
     public static Long getServerTime() {
         Date serverDate = new Date();
         return serverDate.getTime();
     }
 
+    /*
+    @param : message packet, to be serialized
+    @return : ByteArray - to be sent on the UDP channel
+    This function takes in the message dataType and converts it to a byte array
+    that can be sent over the channel.
+     */
     public static ByteArrayOutputStream serializeToByteArray(Message message) {
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
         ObjectOutput oo = null;
@@ -32,14 +39,24 @@ public class Utility {
 
     }
 
+
+    /*
+    @param : byte[] buffer : byte array recieved from the channel
+    @return : Message : returns the message data type
+    This function takes in the byte array and deserializes it to
+    form a understandable Message class object
+     */
     public static Message deserializeToString(byte[] buffer) {
         try {
             ObjectInputStream iStream = new ObjectInputStream(new ByteArrayInputStream(buffer));
             Message message = (Message) iStream.readObject();
             iStream.close();
             return message;
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            return new Message();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
             return new Message();
         }
     }
